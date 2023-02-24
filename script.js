@@ -13,7 +13,7 @@ const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
 
-const totalScores = [0, 0]; //because we have 2 players
+const totalScores = [0, 0]; //2 players and their scores
 let currentScore = 0;
 let activePlayer = 0; //0 or 1
 let playing = true;
@@ -22,6 +22,24 @@ let playing = true;
 score0El.textContent = 0;
 score1El.textContent = 0;
 diceEl.classList.add('hidden');
+
+const init = function () {
+  const totalScores = [0, 0]; //2 players and their scores
+  let currentScore = 0;
+  let activePlayer = 0; //0 or 1
+  let playing = true;
+
+  score0El.textContent = 0;
+  score1El.textContent = 0;
+  currentScore0El.textContent = 0;
+  currentScore1El.textContent = 0;
+
+  player0El.classList.remove('player-winner');
+  player1El.classList.remove('player-winner');
+  player0El.classList.add('player-active');
+  player01El.classList.remove('player-active');
+  diceEl.classList.add('hidden');
+};
 
 const switchPlayer = function () {
   //1.set the current score to 0;
@@ -58,7 +76,7 @@ btnHold.addEventListener('click', function () {
     totalScores[activePlayer] += currentScore;
     document.getElementById(`score--${activePlayer}`).textContent = totalScores[activePlayer];
     //2.check if score is >= 100
-    if (totalScores[activePlayer] >= 15) {
+    if (totalScores[activePlayer] >= 100) {
       playing = false;
       document.querySelector(`.player--${activePlayer}`).classList.add('player--winner');
       document.querySelector(`.player--${activePlayer}`).classList.remove('player--active');
@@ -69,4 +87,13 @@ btnHold.addEventListener('click', function () {
       switchPlayer();
     }
   }
+});
+
+btnNew.addEventListener('click', function () {
+  init();
+
+  // for (let i = 0; i < totalScores.length; i++) {
+  //   totalScores[i] = 0;
+  //   document.querySelector(".score") = totalScores[i];
+  // }
 });
