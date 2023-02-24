@@ -13,6 +13,7 @@ const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
 
+const totalScores = [0, 0]; //because we have 2 players
 let currentScore = 0;
 let activePlayer = 0; //0 or 1
 
@@ -20,6 +21,17 @@ let activePlayer = 0; //0 or 1
 score0El.textContent = 0;
 score1El.textContent = 0;
 diceEl.classList.add('hidden');
+
+const switchPlayer = function () {
+  //1.set the current score to 0;
+  currentScore = 0;
+  document.getElementById(`current--${activePlayer}`).textContent = currentScore;
+  //2.Set active player from player 0 to player 1 and vice versa
+  activePlayer = activePlayer === 0 ? 1 : 0;
+  //3.css - switch between pink colors to show the active player
+  player0El.classList.toggle('player--active');
+  player1El.classList.toggle('player--active');
+};
 
 //Rolling dice functionality
 btnRoll.addEventListener('click', function () {
@@ -33,13 +45,20 @@ btnRoll.addEventListener('click', function () {
     currentScore += dice;
     document.getElementById(`current--${activePlayer}`).textContent = currentScore;
   } else {
-    //1.set the current score to 0;
-    currentScore = 0;
-    document.getElementById(`current--${activePlayer}`).textContent = currentScore;
-    //2.Set active player from player 0 to player 1 and vice versa
+    switchPlayer();
+  }
+});
+
+btnHold.addEventListener('click', function () {
+  //1.add current score to the score of the active player
+  scores[activePlayer] += currentScore;
+  document.getElementById(`current--${activePlayer}`).textContent = scores[activePlayer];
+  //2.check if score is >= 100
+  if (scores[activePlayer] >= 100) {
     activePlayer = activePlayer === 0 ? 1 : 0;
-    //3.css - switch between pink colors to show the active player
     player0El.classList.toggle('player--active');
     player1El.classList.toggle('player--active');
+  } else {
+    switchPlayer();
   }
 });
