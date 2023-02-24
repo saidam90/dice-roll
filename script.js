@@ -9,11 +9,11 @@ const diceEl = document.querySelector('.dice');
 const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
-const player0El = document.querySelector('.player--0');
-const player1El = document.querySelector('.player--1');
+// const player0El = document.querySelector('.player--0');
+// const player1El = document.querySelector('.player--1');
 
-let currentScorePlayer0 = 0;
-let currentScorePlayer1 = 0;
+let currentScore = 0;
+let activePlayer = 0; //0 or 1
 
 //Starting conditions
 score0El.textContent = 0;
@@ -29,18 +29,22 @@ btnRoll.addEventListener('click', function () {
   diceEl.src = `dice-${dice}.png`;
   //3. check for rolled 1: if true - switch the player, else if false - add dice roll to the current score;
   if (dice !== 1) {
-    currentScorePlayer0 += dice;
-    currentScore0El.textContent = currentScorePlayer0;
+    currentScore += dice;
+    document.getElementById(`current--${activePlayer}`).textContent = currentScore;
   } else {
-    //1.set Current = 0;
-    currentScore0El.textContent = 0;
-    //2.css - switch between pink colors to show the active player
+    //1.set the current score to 0;
+    document.getElementById(`current--${activePlayer}`).textContent = 0;
+    //2.Set active player from player 0 to player 1 and vice versa
+    activePlayer = activePlayer === 0 ? 1 : 0;
+    currentScore = 0;
+    //3.css - switch between pink colors to show the active player
     player0El.classList.remove('player--active');
     player1El.classList.add('player--active');
-    //3.add score to player 1;
-    currentScorePlayer1 += dice;
-    currentScore1El.textContent = currentScorePlayer1;
   }
-});
 
-const switchPlayer = function () {};
+  // const switchPlayer = function () {
+  //   //3.add score to player 1;
+  //   currentScore += dice;
+  //   currentScore1El.textContent = currentScorePlayer1;
+  // };
+});
